@@ -7,8 +7,8 @@ or newer.
 ## Install
 
 ```bash
-brew tap patrickschaper/tap
-brew install --cask matrix-screen-saver
+brew trust --cask patrickschaper/tap/matrix-screen-saver
+brew install --cask patrickschaper/tap/matrix-screen-saver
 ```
 
 **Security:** this cask automatically removes quarantine from the
@@ -16,9 +16,8 @@ checksum-verified screen saver bundle. That bypasses Gatekeeper quarantine
 checks; it does not make the bundle notarized or Apple-approved. Install only if
 you trust the release publisher.
 
-After a successful first install, Wallpaper settings opens. Select
-**MatrixScreenSaver** under **Screen Saver** manually. If settings cannot open,
-navigate to **System Settings > Wallpaper > Screen Saver** yourself.
+After installation, open **System Settings > Wallpaper > Screen Saver** and
+select **MatrixScreenSaver** manually.
 
 ## Migrate a manual installation
 
@@ -44,12 +43,10 @@ Successful installs and upgrades print:
 
 ## Compatibility and maintenance
 
-The cask uses deprecated preflight/postflight hooks supported by ordinary
-Homebrew 7.0.7. Developer-mode installs reject those hooks; future Homebrew
-compatibility is not guaranteed.
+The cask uses modern sandboxed install steps, verified with Homebrew 7.0.7,
+including developer mode. No deprecated hooks are used.
 
 Release updates use versioned downloads and SHA-256 checksums. Maintainers copy
 the generated cask from the screensaver's release handoff, or review an automated
 update PR after configuring a dedicated tap-scoped token. Updates are never
-automatically merged. See the [maintainer instructions](https://github.com/patrickschaper/matrixScreenSaver/blob/development/Homebrew/README.md)
-once the source feature branch has been merged.
+automatically merged. See the [maintainer instructions](https://github.com/patrickschaper/matrixScreenSaver/blob/development/Homebrew/README.md).

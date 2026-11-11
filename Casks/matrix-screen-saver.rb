@@ -1,6 +1,6 @@
 cask "matrix-screen-saver" do |dsl|
-  version "0.5.0"
-  sha256 "18ea108ef7c1882a4f1d20fcda778f4e36a054738808cb22d950eb8e602a8cdf"
+  version "0.5.1"
+  sha256 "acc85d4bf255efdda8c5cb732f7226ba412ba800b5f80b8c3042abac5feebb10"
 
   url "https://github.com/patrickschaper/matrixScreenSaver/releases/download/#{version}/#{version}.zip"
   name "MatrixScreenSaver"
@@ -81,11 +81,12 @@ cask "matrix-screen-saver" do |dsl|
       writable_paths: ["#{user_home}/Library/Application Support/MatrixWallpaper",
                        "#{user_home}/Library/LaunchAgents/dev.patsch.MatrixWallpaper.cleanup.plist"] },
     { type: :run, command: "/bin/bash",
-      args: ["{{staged_path}}/Scripts/product-lifecycle.sh", "unregister"],
+      args: ["{{staged_path}}/Scripts/product-lifecycle.sh", "unregister", "homebrew"],
       env: { "HOME" => user_home },
       writable_paths: ["#{user_home}/Library/Application Support/MatrixWallpaper",
                        "#{user_home}/Library/LaunchAgents/dev.patsch.MatrixWallpaper.cleanup.plist"] },
   ]
 
-  uninstall quit: "dev.patsch.MatrixWallpaper", login_item: "Matrix Wallpaper"
+  uninstall launchctl: "dev.patsch.MatrixWallpaper.cleanup",
+            quit: "dev.patsch.MatrixWallpaper", login_item: "Matrix Wallpaper"
 end

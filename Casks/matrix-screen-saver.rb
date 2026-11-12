@@ -1,6 +1,6 @@
 cask "matrix-screen-saver" do |dsl|
-  version "0.5.2"
-  sha256 "4c02797a0a238989f363f209974651e93bd643c863210d266314d10faa4e81c9"
+  version "0.6.0"
+  sha256 "a06aadedc2e26a988aca4cb9200e1cca855704c70535971b3c6547640858d62a"
 
   url "https://github.com/patrickschaper/matrixScreenSaver/releases/download/#{version}/#{version}.zip"
   name "MatrixScreenSaver"
@@ -30,7 +30,7 @@ cask "matrix-screen-saver" do |dsl|
       writable_paths: ["#{user_home}/Library/Application Support/MatrixWallpaper",
                        "#{user_home}/Library/LaunchAgents/dev.patsch.MatrixWallpaper.cleanup.plist"] },
     { type: :run, command: "/bin/echo",
-      args: ["Existing screen saver in Homebrew's configured screen-saver directory. " \
+      args: ["➡️ Existing screen saver in Homebrew's configured screen-saver directory. " \
              "To replace it while retaining options, run: " \
              "brew install --cask --force patrickschaper/tap/matrix-screen-saver"],
       print_stdout: true,
@@ -38,14 +38,14 @@ cask "matrix-screen-saver" do |dsl|
                  path: "MatrixScreenSaver.saver", base: :screen_saverdir }],
       writable_paths: [{ path: "MatrixScreenSaver.saver", base: :screen_saverdir }] },
     { type: :run, command: "/bin/echo",
-      args: ["Existing app at {{appdir}}/Matrix Wallpaper.app. " \
+      args: ["➡️ Existing app at {{appdir}}/Matrix Wallpaper.app. " \
              "To replace it while retaining options, run: " \
              "brew install --cask --force patrickschaper/tap/matrix-screen-saver"],
       print_stdout: true,
       guards: [{ id: "app-conflict", condition: "if_exists", path: "Matrix Wallpaper.app", base: :appdir }],
       writable_paths: [{ path: "Matrix Wallpaper.app", base: :appdir }] },
     { type: :run, command: "/bin/echo",
-      args: ["Removing staged quarantine bypasses Gatekeeper quarantine checks; " \
+      args: ["➡️ Removing staged quarantine bypasses Gatekeeper quarantine checks; " \
              "this does not make either bundle notarized or Apple-approved."],
       print_stdout: true },
     { type: :run, command: "/usr/bin/xattr",
@@ -65,11 +65,12 @@ cask "matrix-screen-saver" do |dsl|
                        "#{user_home}/Library/Application Support/MatrixWallpaper",
                        "#{user_home}/Library/LaunchAgents"] },
     { type: :run, command: "/bin/echo",
-      args: ["There is no spoon. There is coffee: https://www.buymeacoffee.com/yesman82"], print_stdout: true },
+      args: ["➡️ There is no spoon. There is coffee: https://www.buymeacoffee.com/yesman82"], print_stdout: true },
     { type: :run, command: "/bin/echo",
-      args: ["Open System Settings > Wallpaper > Screen Saver and select MatrixScreenSaver."], print_stdout: true },
+      args: ["➡️ Open System Settings > Wallpaper > Screen Saver and select MatrixScreenSaver."],
+      print_stdout: true },
     { type: :run, command: "/bin/echo",
-      args: ["Open {{appdir}}/Matrix Wallpaper.app to start Matrix Wallpaper. " \
+      args: ["➡️ Open {{appdir}}/Matrix Wallpaper.app to start Matrix Wallpaper. " \
              "Launch at Login is optional in its Matrix menu."], print_stdout: true },
   ]
 

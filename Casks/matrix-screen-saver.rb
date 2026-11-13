@@ -1,6 +1,6 @@
 cask "matrix-screen-saver" do |dsl|
-  version "0.6.0"
-  sha256 "a06aadedc2e26a988aca4cb9200e1cca855704c70535971b3c6547640858d62a"
+  version "0.6.1"
+  sha256 "74d2a81fa4a7fd42200f0f00ba30dc0a06c742eaa4b06b18aae1933ea389c085"
 
   url "https://github.com/patrickschaper/matrixScreenSaver/releases/download/#{version}/#{version}.zip"
   name "MatrixScreenSaver"

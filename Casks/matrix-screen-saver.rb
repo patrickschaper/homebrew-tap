@@ -1,6 +1,8 @@
+select_on_install = nil
+
 cask "matrix-screen-saver" do |dsl|
-  version "0.6.1"
-  sha256 "74d2a81fa4a7fd42200f0f00ba30dc0a06c742eaa4b06b18aae1933ea389c085"
+  version "0.6.2"
+  sha256 "098dd4d0acb14e48b07503c875a1ecb059037953c7a0caab038b48487e36d327"
 
   url "https://github.com/patrickschaper/matrixScreenSaver/releases/download/#{version}/#{version}.zip"
   name "MatrixScreenSaver"
@@ -56,6 +58,20 @@ cask "matrix-screen-saver" do |dsl|
       writable_paths: ["{{staged_path}}/Matrix Wallpaper.app"] },
   ]
 
+  # Select only on fresh installs; snapshot receipts before Homebrew stages the new version.
+  select_on_install = !dsl.cask.installed? if select_on_install.nil?
+  selection_steps = []
+  if select_on_install
+    selection_steps << {
+      type: :run, command: "{{appdir}}/Matrix Wallpaper.app/Contents/MacOS/MatrixScreenSaverSelector",
+      args: [saver_destination], env: { "HOME" => user_home },
+      allow_failure: true, print_stdout: true, print_stderr: true,
+      writable_paths: ["{{appdir}}/Matrix Wallpaper.app", saver_destination,
+                       "#{user_home}/Library/Screen Savers",
+                       "#{user_home}/Library/Application Support/com.apple.wallpaper/Store"]
+    }
+  end
+
   postflight_steps [
     { type: :run, command: "/bin/bash",
       args: ["{{staged_path}}/Scripts/product-lifecycle.sh", "register",
@@ -64,10 +80,11 @@ cask "matrix-screen-saver" do |dsl|
       writable_paths: ["{{appdir}}/Matrix Wallpaper.app", saver_destination,
                        "#{user_home}/Library/Application Support/MatrixWallpaper",
                        "#{user_home}/Library/LaunchAgents"] },
+    *selection_steps,
     { type: :run, command: "/bin/echo",
       args: ["➡️ There is no spoon. There is coffee: https://www.buymeacoffee.com/yesman82"], print_stdout: true },
     { type: :run, command: "/bin/echo",
-      args: ["➡️ Open System Settings > Wallpaper > Screen Saver and select MatrixScreenSaver."],
+      args: ["➡️ Open System Settings > Wallpaper > Screen Saver if MatrixScreenSaver is not selected."],
       print_stdout: true },
     { type: :run, command: "/bin/echo",
       args: ["➡️ Open {{appdir}}/Matrix Wallpaper.app to start Matrix Wallpaper. " \

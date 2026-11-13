@@ -1,8 +1,8 @@
 select_on_install = nil
 
 cask "matrix-screen-saver" do |dsl|
-  version "0.6.2"
-  sha256 "098dd4d0acb14e48b07503c875a1ecb059037953c7a0caab038b48487e36d327"
+  version "0.6.3"
+  sha256 "6a0d5e981c2ccf778c78a5af047ad1496eff0f7d1dd017c88d96fcec140fd4df"
 
   url "https://github.com/patrickschaper/matrixScreenSaver/releases/download/#{version}/#{version}.zip"
   name "MatrixScreenSaver"
@@ -58,8 +58,9 @@ cask "matrix-screen-saver" do |dsl|
       writable_paths: ["{{staged_path}}/Matrix Wallpaper.app"] },
   ]
 
-  # Select only on fresh installs; snapshot receipts before Homebrew stages the new version.
-  select_on_install = !dsl.cask.installed? if select_on_install.nil?
+  # Select on fresh installs and explicit reinstalls; retain the decision across staging.
+  reinstall = Homebrew.running_command_with_args.split[1] == "reinstall"
+  select_on_install = !dsl.cask.installed? || reinstall if select_on_install.nil?
   selection_steps = []
   if select_on_install
     selection_steps << {
@@ -105,6 +106,13 @@ cask "matrix-screen-saver" do |dsl|
                        "#{user_home}/Library/LaunchAgents/dev.patsch.MatrixWallpaper.cleanup.plist"] },
   ]
 
-  uninstall launchctl: "dev.patsch.MatrixWallpaper.cleanup",
-            quit: "dev.patsch.MatrixWallpaper", login_item: "Matrix Wallpaper"
+  # The launchctl directive also probes root services, unnecessarily requesting sudo.
+  uninstall quit:       "dev.patsch.MatrixWallpaper",
+            login_item: "Matrix Wallpaper",
+            script:     {
+              executable:   "/bin/launchctl",
+              args:         ["bootout", "gui/#{Process.uid}/dev.patsch.MatrixWallpaper.cleanup"],
+              sudo:         false,
+              must_succeed: false,
+            }
 end
